@@ -40,8 +40,7 @@ object NamingModule {
                     PopupManager.hide()
                 }
             }.onFailure {
-                println(it)
-                // TODO - announce
+                PopupManager.hide()
             }
         }
         primaryCaret.removeSelection()

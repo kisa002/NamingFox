@@ -33,7 +33,7 @@ object PopupManager {
             while(isActive) {
                 repeat(4) {
                     label.text = "Ask naming $type to fox" + ".".repeat(it)
-                    delay(500)
+                    delay(600)
                 }
             }
         }

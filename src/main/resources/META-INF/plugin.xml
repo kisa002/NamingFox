@@ -14,12 +14,12 @@
     </extensions>
 
     <actions>
-        <action id="Naming" class="com.haeyum.namingfox.naming.ConvertValueNaming" text="Naming Value">
+        <action id="Naming" class="com.haeyum.namingfox.naming.NamingVariable" text="Naming Variable">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt shift a"/>
         </action>
 
-        <action id="ConvertFunctionNaming" class="com.haeyum.namingfox.naming.ConvertFunctionNaming" text="Naming Function">
+        <action id="ConvertFunctionNaming" class="com.haeyum.namingfox.naming.NamingFunction" text="Naming Function">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt shift s"/>
         </action>
