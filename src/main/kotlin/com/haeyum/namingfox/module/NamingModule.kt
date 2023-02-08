@@ -40,7 +40,7 @@ object NamingModule {
                     PopupManager.hide()
                 }
             }.onFailure {
-                PopupManager.hide()
+                PopupManager.showError("Failed naming, please try later.")
             }
         }
         primaryCaret.removeSelection()

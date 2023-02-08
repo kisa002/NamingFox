@@ -11,36 +11,61 @@ object PopupManager {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private var job: Job? = null
 
-    private var popup: JBPopup? = null
+    private var popup: Popup? = null
 
     fun showLoading(type: String) {
-        val panel: JComponent = JPanel()
-        val label = JLabel("Ask naming $type to fox...")
-
-        panel.add(label)
-        popup = JBPopupFactory
-            .getInstance()
-            .createComponentPopupBuilder(panel, label)
-            .setCancelOnClickOutside(false)
-            .setCancelKeyEnabled(false)
-            .setBelongsToGlobalPopupStack(true)
-            .createPopup()
-            .apply {
-                showInFocusCenter()
-            }
+        hide()
+        show("Ask naming $type to fox...")
 
         job = coroutineScope.launch {
-            while(isActive) {
+            while (isActive) {
                 repeat(4) {
-                    label.text = "Ask naming $type to fox" + ".".repeat(it)
+                    popup?.setText("Ask naming $type to fox" + ".".repeat(it))
                     delay(600)
                 }
             }
         }
     }
 
+    fun showError(text: String) {
+        hide()
+        show(text)
+
+        job = coroutineScope.launch {
+            delay(1000)
+            hide()
+        }
+    }
+
+    fun show(text: String) = run {
+        val panel: JComponent = JPanel()
+        val label = JLabel(text)
+
+        panel.add(label)
+        Popup(
+            popup = JBPopupFactory
+                .getInstance()
+                .createComponentPopupBuilder(panel, label)
+                .setCancelOnClickOutside(false)
+                .setCancelKeyEnabled(false)
+                .setBelongsToGlobalPopupStack(true)
+                .createPopup()
+                .apply {
+                    showInFocusCenter()
+                },
+            label = label
+        ).also { popup = it }
+    }
+
     fun hide() {
         job?.cancel()
         popup?.dispose()
+    }
+}
+
+data class Popup(val popup: JBPopup, val label: JLabel) {
+    fun dispose() = popup.dispose()
+    fun setText(text: String) {
+        label.text = text
     }
 }
