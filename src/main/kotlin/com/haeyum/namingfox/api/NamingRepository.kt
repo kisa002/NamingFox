@@ -16,7 +16,7 @@ object NamingRepository {
                 100
             )
         )
-        bearerAuth(API_KEY)
+        bearerAuth("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")
         contentType(ContentType.Application.Json)
     }.body<Response>().choices.firstOrNull()?.text?.removePrefix("\n")
 }

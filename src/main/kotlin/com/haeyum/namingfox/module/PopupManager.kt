@@ -15,7 +15,7 @@ object PopupManager {
 
     fun showLoading(type: String) {
         val panel: JComponent = JPanel()
-        val label = JLabel("Ask naming value to fox")
+        val label = JLabel("Ask naming $type to fox...")
 
         panel.add(label)
         popup = JBPopupFactory
@@ -31,9 +31,9 @@ object PopupManager {
 
         job = coroutineScope.launch {
             while(isActive) {
-                repeat(3) {
+                repeat(4) {
+                    label.text = "Ask naming $type to fox" + ".".repeat(it)
                     delay(500)
-                    label.text = "Ask naming $type to fox" + ".".repeat(it + 1)
                 }
             }
         }
