@@ -1,0 +1,41 @@
+<idea-plugin>
+    <id>com.haeyum.NamingFox</id>
+
+    <name>NamingFox</name>
+    <vendor email="vnycall74@naver.com" url="https://haeyum.dev">HAEYUM</vendor>
+
+    <description><![CDATA[
+    Naming Fox named a value or function name<br>
+    <em>For free.</em>
+  ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow factoryClass="com.haeyum.namingfox.NamingFoxWindowFactory" id="NamingFoxWindow"/>
+    </extensions>
+
+    <actions>
+        <action id="NamingFox.FirstToolAction" class="com.haeyum.namingfox.FirstToolAction" text="FirstToolName">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+
+        <action id="Naming" class="com.haeyum.namingfox.naming.ConvertValueNaming" text="Naming Value">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift A"/>
+        </action>
+
+        <action id="ConvertFunctionNaming" class="com.haeyum.namingfox.naming.ConvertFunctionNaming" text="Naming Function">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift S"/>
+        </action>
+    </actions>
+
+    <project-components>
+        <component>
+            <interface-class>com.haeyum.namingfox.NamingFoxWindow</interface-class>
+            <implementation-class>com.haeyum.namingfox.NamingFoxWindow</implementation-class>
+        </component>
+    </project-components>
+</idea-plugin>
