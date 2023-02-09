@@ -1,5 +1,6 @@
 package com.haeyum
 
+import com.haeyum.models.local.ErrorLogs
 import com.haeyum.models.local.Namings
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -14,6 +15,7 @@ object DatabaseFactory {
         val database = Database.connect(jdbcURL, driverClassName)
         transaction(database) {
             SchemaUtils.create(Namings)
+            SchemaUtils.create(ErrorLogs)
         }
     }
 
