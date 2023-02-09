@@ -38,7 +38,7 @@ fun Application.configureRouting(
                     Triple(it.getOrFail("original"), it.getOrFail("language"), it.getOrFail("type"))
                 }
 
-                val naming = namingDao.findNaming(original = original, type = type)?.naming
+                val naming = namingDao.findNaming(original = original, type = type, language = language)?.naming
                     ?: openApiRepository.fetchNaming(original = original, type = type, language = language)
 
                 naming?.let {
@@ -51,14 +51,23 @@ fun Application.configureRouting(
                 }
             }.onSuccess { namingData ->
                 if (namingData != null) {
-                    call.respond(HttpStatusCode.OK, NamingResponse(code = 0, message = "", result = namingData).toJsonString())
-                    if (!namingDao.existsNaming(original = namingData.original, type = namingData.type))
+                    call.respond(
+                        HttpStatusCode.OK,
+                        NamingResponse(code = 0, message = "", result = namingData).toJsonString()
+                    )
+                    if (!namingDao.existsNaming(
+                            original = namingData.original,
+                            type = namingData.type,
+                            language = namingData.language
+                        )
+                    ) {
                         namingDao.addNewNaming(
                             original = namingData.original,
                             naming = namingData.naming,
                             type = namingData.type,
                             language = namingData.language
                         )
+                    }
                 } else {
                     call.respond(
                         HttpStatusCode.OK,

@@ -29,17 +29,17 @@ class NamingDAOImpl : NamingDAO {
         Namings.selectAll().map(::resultRowToNaming)
     }
 
-    override suspend fun findNaming(original: String, type: String): Naming? = dbQuery {
+    override suspend fun findNaming(original: String, type: String, language: String): Naming? = dbQuery {
         Namings
-            .select { (Namings.original eq original) and (Namings.type eq type) }
+            .select { (Namings.original eq original) and (Namings.type eq type) and (Namings.language eq language) }
             .limit(1)
             .map(::resultRowToNaming)
             .singleOrNull()
     }
 
-    override suspend fun existsNaming(original: String, type: String): Boolean = dbQuery {
+    override suspend fun existsNaming(original: String, type: String, language: String): Boolean = dbQuery {
         Namings
-            .select { (Namings.original eq original) and (Namings.type eq type) }
+            .select { (Namings.original eq original) and (Namings.type eq type) and (Namings.language eq language) }
             .singleOrNull() != null
     }
 }
