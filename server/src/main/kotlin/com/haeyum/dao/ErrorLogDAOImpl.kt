@@ -18,7 +18,7 @@ class ErrorLogDAOImpl : ErrorLogDAO {
         val insertStatement = ErrorLogs.insert {
             it[ErrorLogs.request] = request
             it[ErrorLogs.response] = response
-            it[ErrorLogs.request] = reason
+            it[ErrorLogs.reason] = reason
         }
     }
 
