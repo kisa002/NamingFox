@@ -1,5 +1,7 @@
 package com.haeyum.plugins
 
+import com.haeyum.dao.ErrorLogDAO
+import com.haeyum.dao.ErrorLogDAOImpl
 import com.haeyum.dao.NamingDAO
 import com.haeyum.dao.NamingDAOImpl
 import com.haeyum.models.common.NamingData
@@ -16,6 +18,7 @@ import io.ktor.server.util.*
 
 fun Application.configureRouting(
     namingDao: NamingDAO = NamingDAOImpl(),
+    errorLogDAO: ErrorLogDAO = ErrorLogDAOImpl(),
     openApiRepository: OpenApiRepository = OpenApiRepositoryImpl()
 ) {
     routing {
@@ -23,18 +26,29 @@ fun Application.configureRouting(
             call.respondText("Hello World!")
         }
 
+        get("/errorLogs") {
+            kotlin.runCatching {
+                call.respond(HttpStatusCode.OK, errorLogDAO.loadAll().toJsonString())
+            }.onFailure {
+                call.respond(HttpStatusCode.InternalServerError)
+                errorLogDAO.addErrorLog(request = call.parameters.toString(), reason = it.toString())
+            }
+        }
+
         get("/namings") {
             runCatching {
                 call.respond(HttpStatusCode.OK, namingDao.allNamings().toJsonString())
             }.onFailure {
-                println(it)
                 call.respond(HttpStatusCode.InternalServerError)
+                errorLogDAO.addErrorLog(request = call.parameters.toString(), reason = it.toString())
             }
         }
 
         post("/naming") {
+            val parameters = call.receiveParameters()
+
             runCatching {
-                val (original, language, type) = call.receiveParameters().let {
+                val (original, language, type) = parameters.let {
                     Triple(it.getOrFail("original"), it.getOrFail("language"), it.getOrFail("type"))
                 }
 
@@ -69,16 +83,30 @@ fun Application.configureRouting(
                         )
                     }
                 } else {
-                    call.respond(
-                        HttpStatusCode.OK,
-                        NamingResponse(code = -1, message = "이름을 짓지 못하였습니다.").toJsonString()
-                    )
+                    NamingResponse(code = -1, message = "이름을 짓지 못하였습니다.").toJsonString().let { response ->
+                        call.respond(
+                            HttpStatusCode.OK,
+                            response
+                        )
+                        errorLogDAO.addErrorLog(
+                            request = parameters.toString(),
+                            response = response,
+                            reason = it.toString()
+                        )
+                    }
                 }
             }.onFailure {
-                call.respond(
-                    HttpStatusCode.OK,
-                    NamingResponse(code = -2, message = it.message.orEmpty()).toJsonString()
-                )
+                NamingResponse(code = -2, message = it.message.orEmpty()).toJsonString().let { response ->
+                    call.respond(
+                        HttpStatusCode.OK,
+                        response
+                    )
+                    errorLogDAO.addErrorLog(
+                        request = parameters.toString(),
+                        response = response,
+                        reason = it.toString()
+                    )
+                }
             }
         }
     }
