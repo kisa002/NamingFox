@@ -19,9 +19,9 @@ import io.ktor.server.routing.*
 import io.ktor.server.util.*
 
 fun Application.configureRouting(
-    namingDao: NamingDAO = NamingDAOImpl(),
-    errorLogDAO: ErrorLogDAO = ErrorLogDAOImpl(),
-    analyticsDAO: AnalyticsDAO = AnalyticsDAOImpl(),
+    namingDao: NamingDAO,
+    errorLogDAO: ErrorLogDAO,
+    analyticsDAO: AnalyticsDAO,
     openApiRepository: OpenApiRepository
 ) {
     routing {
