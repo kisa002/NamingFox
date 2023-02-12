@@ -1,8 +1,6 @@
-package models.common
+package models
 
 import kotlinx.serialization.Serializable
-import models.common.BaseResponse
-import models.common.NamingData
 
 @Serializable
 data class NamingResponse(

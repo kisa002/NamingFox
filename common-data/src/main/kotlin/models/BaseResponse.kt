@@ -1,4 +1,4 @@
-package models.common
+package models
 
 interface BaseResponse<T> {
     val code: Int

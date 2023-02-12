@@ -10,8 +10,8 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import models.common.NamingData
-import models.common.NamingResponse
+import models.NamingData
+import models.NamingResponse
 import repository.OpenApiRepository
 import supports.toJsonString
 
