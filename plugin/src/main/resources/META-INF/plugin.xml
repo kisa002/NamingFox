@@ -1,0 +1,27 @@
+<idea-plugin>
+    <id>com.haeyum.NamingFox</id>
+
+    <name>NamingFox</name>
+    <vendor email="vnycall74@naver.com" url="https://haeyum.dev">HAEYUM</vendor>
+
+    <description><![CDATA[
+    Naming Fox named a variable or function name
+  ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+
+    <actions>
+        <action id="Naming" class="naming.NamingVariable" text="Naming Variable">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt shift a"/>
+        </action>
+
+        <action id="ConvertFunctionNaming" class="naming.NamingFunction" text="Naming Function">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt shift s"/>
+        </action>
+    </actions>
+</idea-plugin>

@@ -7,12 +7,12 @@ val koin_version: String by project
 val koin_ktor: String by project
 
 plugins {
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "1.8.10"
     id("io.ktor.plugin") version "2.2.3"
     kotlin("plugin.serialization") version "1.8.10"
 }
 
-group = "org.example"
+group = "com.haeyum"
 version = "1.0-SNAPSHOT"
 application {
     mainClass.set("ApplicationKt")
