@@ -9,7 +9,6 @@ import com.haeyum.dao.naming.NamingDAOImpl
 import com.haeyum.models.common.NamingData
 import com.haeyum.models.common.NamingResponse
 import com.haeyum.repository.OpenApiRepository
-import com.haeyum.repository.OpenApiRepositoryImpl
 import com.haeyum.supports.toJsonString
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -23,7 +22,7 @@ fun Application.configureRouting(
     namingDao: NamingDAO = NamingDAOImpl(),
     errorLogDAO: ErrorLogDAO = ErrorLogDAOImpl(),
     analyticsDAO: AnalyticsDAO = AnalyticsDAOImpl(),
-    openApiRepository: OpenApiRepository = OpenApiRepositoryImpl()
+    openApiRepository: OpenApiRepository
 ) {
     routing {
         get("/") {
@@ -52,8 +51,8 @@ fun Application.configureRouting(
             val parameters = call.receiveParameters()
 
             runCatching {
-                val (original, language, type) = parameters.let {
-                    Triple(it.getOrFail("original"), it.getOrFail("language"), it.getOrFail("type"))
+                val (original, type, language) = parameters.let {
+                    Triple(it.getOrFail("original"), it.getOrFail("type"), it.getOrFail("language"))
                 }
 
                 val naming = namingDao.findNaming(original = original, type = type, language = language)?.naming

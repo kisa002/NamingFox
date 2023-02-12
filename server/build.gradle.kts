@@ -3,6 +3,8 @@ val kotlin_version: String by project
 val logback_version: String by project
 val exposed_version: String by project
 val h2_version: String by project
+val koin_version: String by project
+val koin_ktor: String by project
 
 plugins {
     kotlin("jvm") version "1.8.10"
@@ -41,4 +43,8 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-client-logging-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+
+//    implementation("io.insert-koin:koin-core:$koin_version")
+    implementation("io.insert-koin:koin-ktor:$koin_ktor")
+    implementation("io.insert-koin:koin-logger-slf4j:$koin_ktor")
 }
