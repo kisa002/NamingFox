@@ -8,6 +8,7 @@ import com.intellij.openapi.util.TextRange
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 object NamingModule {
     fun namingVariable(event: AnActionEvent) {
@@ -31,13 +32,19 @@ object NamingModule {
         val language = document.toString().split(".").last().dropLast(1)
 
         PopupManager.showLoading(type)
-        CoroutineScope(Dispatchers.IO).launch {
+        runBlocking {
+            NamingRepository.getNaming(text, type, language)
+
             kotlin.runCatching {
-                NamingRepository.getNaming(text, language, type)!!
-            }.onSuccess {
-                WriteCommandAction.runWriteCommandAction(project) {
-                    document.replaceString(start, end, it)
-                    PopupManager.hide()
+                NamingRepository.getNaming(text, type, language)
+            }.onSuccess { namingData ->
+                if (namingData != null) {
+                    WriteCommandAction.runWriteCommandAction(project) {
+                        document.replaceString(start, end, namingData.naming)
+                        PopupManager.hide()
+                    }
+                } else {
+                    PopupManager.showError("Something wrong...")
                 }
             }.onFailure {
                 PopupManager.showError("Failed naming, please try later.")

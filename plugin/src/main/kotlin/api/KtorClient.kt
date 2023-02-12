@@ -20,9 +20,9 @@ object KtorClient {
             )
         }
 
-//        install(Logging) {
-//            logger = Logger.DEFAULT
-//            level = LogLevel.BODY
-//        }
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.BODY
+        }
     }
 }

@@ -4,9 +4,13 @@ import dao.error_log.ErrorLogDAO
 import dao.error_log.ErrorLogDAOImpl
 import dao.naming.NamingDAO
 import dao.naming.NamingDAOImpl
+import io.ktor.client.request.forms.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.contentnegotiation.*
+import kotlinx.serialization.json.Json
 import module.apiModule
 import module.dataModule
 import org.koin.ktor.ext.inject
@@ -21,6 +25,14 @@ fun main() {
 }
 
 fun Application.module() {
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
+        formData()
+    }
+
     DatabaseFactory.init()
 
     koin {

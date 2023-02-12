@@ -25,18 +25,16 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation(project(":common-data"))
 
-    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:1.2.11")
-    implementation("io.ktor:ktor-client-logging-jvm:$ktor_version")
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation("io.ktor:ktor-client-logging-jvm:$ktor_version")
+    implementation("ch.qos.logback:logback-classic:1.2.11")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }

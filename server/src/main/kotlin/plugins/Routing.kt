@@ -11,6 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import models.NamingData
+import models.NamingRequest
 import models.NamingResponse
 import repository.OpenApiRepository
 import supports.toJsonString
@@ -45,22 +46,35 @@ fun Application.configureRouting(
         }
 
         post("/naming") {
-            val parameters = call.receiveParameters()
-
-            runCatching {
-                val (original, type, language) = parameters.let {
-                    Triple(it.getOrFail("original"), it.getOrFail("type"), it.getOrFail("language"))
+            val request = if (call.request.contentType() == ContentType.Application.Json)
+                call.receive<NamingRequest>()
+            else
+                call.receiveParameters().let {
+                    NamingRequest(
+                        original = it.getOrFail("original"),
+                        type = it.getOrFail("type"),
+                        language = it.getOrFail("language")
+                    )
                 }
 
-                val naming = namingDao.findNaming(original = original, type = type, language = language)?.naming
-                    ?: openApiRepository.fetchNaming(original = original, type = type, language = language)
+            runCatching {
+                val naming = namingDao.findNaming(
+                    original = request.original,
+                    type = request.type,
+                    language = request.language
+                )?.naming
+                    ?: openApiRepository.fetchNaming(
+                        original = request.original,
+                        type = request.type,
+                        language = request.language
+                    )
 
                 naming?.let {
                     NamingData(
-                        original = original,
+                        original = request.original,
                         naming = it,
-                        type = type,
-                        language = language
+                        type = request.type,
+                        language = request.language
                     )
                 }
             }.onSuccess { namingData ->
@@ -90,7 +104,7 @@ fun Application.configureRouting(
                             response
                         )
                         errorLogDAO.addErrorLog(
-                            request = parameters.toString(),
+                            request = request.toString(),
                             response = response,
                             reason = it.toString()
                         )
@@ -103,7 +117,7 @@ fun Application.configureRouting(
                         response
                     )
                     errorLogDAO.addErrorLog(
-                        request = parameters.toString(),
+                        request = request.toString(),
                         response = response,
                         reason = it.toString()
                     )
