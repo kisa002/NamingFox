@@ -1,4 +1,4 @@
-package com.haeyum.dao
+package com.haeyum.dao.error_log
 
 import com.haeyum.models.local.ErrorLog
 

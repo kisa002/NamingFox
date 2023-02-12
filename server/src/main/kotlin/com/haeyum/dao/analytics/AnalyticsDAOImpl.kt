@@ -1,4 +1,4 @@
-package com.haeyum.dao
+package com.haeyum.dao.analytics
 
 import com.haeyum.DatabaseFactory.dbQuery
 import com.haeyum.models.local.Analytics

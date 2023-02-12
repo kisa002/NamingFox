@@ -1,10 +1,14 @@
 package com.haeyum.plugins
 
-import com.haeyum.dao.*
+import com.haeyum.dao.analytics.AnalyticsDAO
+import com.haeyum.dao.analytics.AnalyticsDAOImpl
+import com.haeyum.dao.error_log.ErrorLogDAO
+import com.haeyum.dao.error_log.ErrorLogDAOImpl
+import com.haeyum.dao.naming.NamingDAO
+import com.haeyum.dao.naming.NamingDAOImpl
 import com.haeyum.models.common.NamingData
 import com.haeyum.models.common.NamingResponse
 import com.haeyum.repository.OpenApiRepository
-import com.haeyum.repository.OpenApiRepositoryImpl
 import com.haeyum.supports.toJsonString
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -15,10 +19,10 @@ import io.ktor.server.routing.*
 import io.ktor.server.util.*
 
 fun Application.configureRouting(
-    namingDao: NamingDAO = NamingDAOImpl(),
-    errorLogDAO: ErrorLogDAO = ErrorLogDAOImpl(),
-    analyticsDAO: AnalyticsDAO = AnalyticsDAOImpl(),
-    openApiRepository: OpenApiRepository = OpenApiRepositoryImpl()
+    namingDao: NamingDAO,
+    errorLogDAO: ErrorLogDAO,
+    analyticsDAO: AnalyticsDAO,
+    openApiRepository: OpenApiRepository
 ) {
     routing {
         get("/") {
@@ -47,8 +51,8 @@ fun Application.configureRouting(
             val parameters = call.receiveParameters()
 
             runCatching {
-                val (original, language, type) = parameters.let {
-                    Triple(it.getOrFail("original"), it.getOrFail("language"), it.getOrFail("type"))
+                val (original, type, language) = parameters.let {
+                    Triple(it.getOrFail("original"), it.getOrFail("type"), it.getOrFail("language"))
                 }
 
                 val naming = namingDao.findNaming(original = original, type = type, language = language)?.naming
