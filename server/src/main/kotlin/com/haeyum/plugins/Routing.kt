@@ -1,6 +1,11 @@
 package com.haeyum.plugins
 
-import com.haeyum.dao.*
+import com.haeyum.dao.analytics.AnalyticsDAO
+import com.haeyum.dao.analytics.AnalyticsDAOImpl
+import com.haeyum.dao.error_log.ErrorLogDAO
+import com.haeyum.dao.error_log.ErrorLogDAOImpl
+import com.haeyum.dao.naming.NamingDAO
+import com.haeyum.dao.naming.NamingDAOImpl
 import com.haeyum.models.common.NamingData
 import com.haeyum.models.common.NamingResponse
 import com.haeyum.repository.OpenApiRepository

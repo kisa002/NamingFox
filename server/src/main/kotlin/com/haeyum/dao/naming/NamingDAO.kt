@@ -1,4 +1,4 @@
-package com.haeyum.dao
+package com.haeyum.dao.naming
 
 import com.haeyum.models.local.Naming
 
