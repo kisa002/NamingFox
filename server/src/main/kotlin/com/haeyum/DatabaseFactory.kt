@@ -1,5 +1,6 @@
 package com.haeyum
 
+import com.haeyum.models.local.AnalyticsTable
 import com.haeyum.models.local.ErrorLogs
 import com.haeyum.models.local.Namings
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ object DatabaseFactory {
         transaction(database) {
             SchemaUtils.create(Namings)
             SchemaUtils.create(ErrorLogs)
+            SchemaUtils.create(AnalyticsTable)
         }
     }
 

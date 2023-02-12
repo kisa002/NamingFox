@@ -1,9 +1,6 @@
 package com.haeyum.plugins
 
-import com.haeyum.dao.ErrorLogDAO
-import com.haeyum.dao.ErrorLogDAOImpl
-import com.haeyum.dao.NamingDAO
-import com.haeyum.dao.NamingDAOImpl
+import com.haeyum.dao.*
 import com.haeyum.models.common.NamingData
 import com.haeyum.models.common.NamingResponse
 import com.haeyum.repository.OpenApiRepository
@@ -11,6 +8,7 @@ import com.haeyum.repository.OpenApiRepositoryImpl
 import com.haeyum.supports.toJsonString
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -19,6 +17,7 @@ import io.ktor.server.util.*
 fun Application.configureRouting(
     namingDao: NamingDAO = NamingDAOImpl(),
     errorLogDAO: ErrorLogDAO = ErrorLogDAOImpl(),
+    analyticsDAO: AnalyticsDAO = AnalyticsDAOImpl(),
     openApiRepository: OpenApiRepository = OpenApiRepositoryImpl()
 ) {
     routing {
@@ -82,6 +81,7 @@ fun Application.configureRouting(
                             language = namingData.language
                         )
                     }
+                    analyticsDAO.addAnalytics(type = namingData.type, call.request.origin.remoteHost)
                 } else {
                     NamingResponse(code = -1, message = "이름을 짓지 못하였습니다.").toJsonString().let { response ->
                         call.respond(
@@ -107,6 +107,15 @@ fun Application.configureRouting(
                         reason = it.toString()
                     )
                 }
+            }
+        }
+
+        get("analytics") {
+            kotlin.runCatching {
+                call.respond(HttpStatusCode.OK, analyticsDAO.loadAll().toJsonString())
+            }.onFailure {
+                call.respond(HttpStatusCode.InternalServerError)
+                errorLogDAO.addErrorLog(request = call.parameters.toString(), reason = it.toString())
             }
         }
     }
