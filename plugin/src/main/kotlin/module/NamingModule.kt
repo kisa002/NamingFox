@@ -5,12 +5,17 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.util.TextRange
+import dispatcher.AwtEventQueueDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import java.net.ConnectException
+import java.nio.channels.UnresolvedAddressException
 
 object NamingModule {
+    val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     fun namingVariable(event: AnActionEvent) {
         naming(event, "variable")
     }
@@ -32,22 +37,27 @@ object NamingModule {
         val language = document.toString().split(".").last().dropLast(1)
 
         PopupManager.showLoading(type)
-        runBlocking {
-            NamingRepository.getNaming(text, type, language)
-
+        coroutineScope.launch {
             kotlin.runCatching {
                 NamingRepository.getNaming(text, type, language)
             }.onSuccess { namingData ->
-                if (namingData != null) {
-                    WriteCommandAction.runWriteCommandAction(project) {
-                        document.replaceString(start, end, namingData.naming)
-                        PopupManager.hide()
+                withContext(AwtEventQueueDispatcher) {
+                    if (namingData != null) {
+                        WriteCommandAction.runWriteCommandAction(project) {
+                            document.replaceString(start, end, namingData.naming)
+                            PopupManager.hide()
+                        }
+                    } else {
+                        PopupManager.showError("Something wrong... Please contact to admin.")
                     }
-                } else {
-                    PopupManager.showError("Something wrong...")
                 }
             }.onFailure {
-                PopupManager.showError("Failed naming, please try later.")
+                withContext(AwtEventQueueDispatcher) {
+                    PopupManager.showError(when(it) {
+                        is UnresolvedAddressException, is ConnectException -> "Server is down... Please contact to admin."
+                        else -> "Failed naming, please try later."
+                    })
+                }
             }
         }
         primaryCaret.removeSelection()

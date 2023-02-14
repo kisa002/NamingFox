@@ -2,6 +2,7 @@ package module
 
 import com.intellij.openapi.ui.popup.JBPopup
 import com.intellij.openapi.ui.popup.JBPopupFactory
+import dispatcher.AwtEventQueueDispatcher
 import kotlinx.coroutines.*
 import javax.swing.JComponent
 import javax.swing.JLabel
@@ -31,18 +32,21 @@ object PopupManager {
         hide()
         show(text)
 
+        job?.cancel()
         job = coroutineScope.launch {
-            delay(1000)
-            hide()
+            delay(3000)
+            withContext(AwtEventQueueDispatcher) {
+                hide()
+            }
         }
     }
 
-    fun show(text: String) = run {
+    fun show(text: String) {
         val panel: JComponent = JPanel()
         val label = JLabel(text)
 
         panel.add(label)
-        Popup(
+        popup = Popup(
             popup = JBPopupFactory
                 .getInstance()
                 .createComponentPopupBuilder(panel, label)
@@ -54,7 +58,7 @@ object PopupManager {
                     showInFocusCenter()
                 },
             label = label
-        ).also { popup = it }
+        )
     }
 
     fun hide() {
