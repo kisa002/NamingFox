@@ -4,12 +4,12 @@ import dao.error_log.ErrorLogDAO
 import dao.error_log.ErrorLogDAOImpl
 import dao.naming.NamingDAO
 import dao.naming.NamingDAOImpl
-import io.ktor.client.request.forms.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.defaultheaders.*
 import kotlinx.serialization.json.Json
 import module.apiModule
 import module.dataModule
@@ -30,7 +30,10 @@ fun Application.module() {
             prettyPrint = true
             isLenient = true
         })
-        formData()
+    }
+
+    install(DefaultHeaders) {
+        header("Content-Type", "application/json")
     }
 
     DatabaseFactory.init()
