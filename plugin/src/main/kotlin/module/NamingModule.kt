@@ -40,15 +40,18 @@ object NamingModule {
         coroutineScope.launch {
             kotlin.runCatching {
                 NamingRepository.getNaming(text, type, language)
-            }.onSuccess { namingData ->
+            }.onSuccess { namingResponse ->
                 withContext(AwtEventQueueDispatcher) {
-                    if (namingData != null) {
-                        WriteCommandAction.runWriteCommandAction(project) {
-                            document.replaceString(start, end, namingData.naming)
-                            PopupManager.hide()
+                    when (namingResponse.code) {
+                        0 -> if (namingResponse.result != null) {
+                            WriteCommandAction.runWriteCommandAction(project) {
+                                document.replaceString(start, end, namingResponse.result!!.naming)
+                                PopupManager.hide()
+                            }
+                        } else {
+                            PopupManager.showError("Something wrong... Please contact to admin.")
                         }
-                    } else {
-                        PopupManager.showError("Something wrong... Please contact to admin.")
+                        else -> PopupManager.showError(namingResponse.message)
                     }
                 }
             }.onFailure {

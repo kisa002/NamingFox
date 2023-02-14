@@ -34,7 +34,7 @@ object PopupManager {
 
         job?.cancel()
         job = coroutineScope.launch {
-            delay(3000)
+            delay(4000)
             withContext(AwtEventQueueDispatcher) {
                 hide()
             }
