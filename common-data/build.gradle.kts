@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.8.10"
+    kotlin("plugin.serialization") version "1.8.10"
 }
 
 group = "org.example"
@@ -11,6 +12,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.3")
 }
 
 tasks.test {

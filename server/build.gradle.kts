@@ -13,9 +13,9 @@ plugins {
 }
 
 group = "com.haeyum"
-version = "0.0.1"
+version = "1.0-SNAPSHOT"
 application {
-    mainClass.set("com.haeyum.ApplicationKt")
+    mainClass.set("ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -26,11 +26,18 @@ repositories {
 }
 
 dependencies {
+    testImplementation(kotlin("test"))
+    implementation(project(":common-data"))
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-server-default-headers:$ktor_version")
+//    implementation("io.ktor:ktor-server-default-headers-jvm:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
@@ -47,4 +54,12 @@ dependencies {
 //    implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.insert-koin:koin-ktor:$koin_ktor")
     implementation("io.insert-koin:koin-logger-slf4j:$koin_ktor")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain(8)
 }

@@ -1,8 +1,0 @@
-package com.haeyum.dao.error_log
-
-import com.haeyum.models.local.ErrorLog
-
-interface ErrorLogDAO {
-    suspend fun addErrorLog(request: String? = null, response: String? = null, reason: String?)
-    suspend fun loadAll(): List<ErrorLog>
-}
