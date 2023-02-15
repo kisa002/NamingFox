@@ -11,6 +11,9 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="Update Notification Group"
+           displayType="BALLOON"
+           key="notification.group.update"/>
     </extensions>
 
     <actions>
@@ -24,4 +27,10 @@
             <keyboard-shortcut keymap="$default" first-keystroke="alt shift s"/>
         </action>
     </actions>
+
+    <applicationListeners>
+        <listener
+                class="version_checker.StartUpVersionCheckListener"
+                topic="com.intellij.ide.AppLifecycleListener"/>
+    </applicationListeners>
 </idea-plugin>
