@@ -14,7 +14,7 @@ import java.net.ConnectException
 import java.nio.channels.UnresolvedAddressException
 
 object NamingModule {
-    val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun namingVariable(event: AnActionEvent) {
         naming(event, "variable")

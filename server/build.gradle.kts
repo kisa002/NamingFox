@@ -5,6 +5,7 @@ val exposed_version: String by project
 val h2_version: String by project
 val koin_version: String by project
 val koin_ktor: String by project
+val server_version: String by project
 
 plugins {
     kotlin("jvm") version "1.8.10"
@@ -13,7 +14,7 @@ plugins {
 }
 
 group = "com.haeyum"
-version = "1.0-SNAPSHOT"
+version = server_version
 application {
     mainClass.set("ApplicationKt")
 
