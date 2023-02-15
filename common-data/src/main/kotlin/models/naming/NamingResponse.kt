@@ -1,6 +1,7 @@
-package models
+package models.naming
 
 import kotlinx.serialization.Serializable
+import models.BaseResponse
 
 @Serializable
 data class NamingResponse(

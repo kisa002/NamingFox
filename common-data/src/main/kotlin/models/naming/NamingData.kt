@@ -1,10 +1,11 @@
-package models
+package models.naming
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NamingRequest(
+data class NamingData(
     val original: String,
+    val naming: String,
     val type: String,
     val language: String
 )
