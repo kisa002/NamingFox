@@ -10,9 +10,10 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import models.NamingData
-import models.NamingRequest
-import models.NamingResponse
+import models.naming.NamingData
+import models.naming.NamingRequest
+import models.naming.NamingResponse
+import models.version.VersionResponse
 import repository.OpenApiRepository
 import supports.toJsonString
 
@@ -132,6 +133,10 @@ fun Application.configureRouting(
                 call.respond(HttpStatusCode.InternalServerError)
                 errorLogDAO.addErrorLog(request = call.parameters.toString(), reason = it.toString())
             }
+        }
+
+        get("version") {
+            call.respond(HttpStatusCode.OK, VersionResponse(version = "1.2.3"))
         }
     }
 }
