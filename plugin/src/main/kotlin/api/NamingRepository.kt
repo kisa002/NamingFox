@@ -13,5 +13,5 @@ object NamingRepository {
             NamingRequest(original = original, type = type, language = language)
         )
         contentType(ContentType.Application.Json)
-    }.body<NamingResponse>().result
+    }.body<NamingResponse>()
 }
