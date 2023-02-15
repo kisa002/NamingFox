@@ -1,5 +1,6 @@
 package version_checker
 
+import Version
 import api.VersionRepository
 import com.intellij.ide.AppLifecycleListener
 import kotlinx.coroutines.CoroutineScope
@@ -9,14 +10,14 @@ import kotlin.math.pow
 
 
 class StartUpVersionCheckListener : AppLifecycleListener {
-
     override fun appStarted() {
         super.appStarted()
+
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
                 VersionRepository.fetchVersion().version
             }.onSuccess { version ->
-                if (version.toVersionInteger() > "1.0.0".toVersionInteger()) {
+                if (version.toVersionInteger() > Version.client.toVersionInteger()) {
                     VersionCheckerNotifier.notifyNewestVersion(version)
                 }
             }.onFailure {

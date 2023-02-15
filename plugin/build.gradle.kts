@@ -1,5 +1,6 @@
 val ktor_version: String by project
 val kotlin_version: String by project
+val client_version: String by project
 
 plugins {
     id("java")
@@ -10,7 +11,7 @@ plugins {
 }
 
 group = "com.haeyum"
-version = "1.0-SNAPSHOT"
+version = client_version
 
 intellij {
     version.set("2022.1.4")

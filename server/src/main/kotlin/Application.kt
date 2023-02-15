@@ -48,6 +48,7 @@ fun Application.module() {
     val openApiRepository: OpenApiRepository by inject<OpenApiRepositoryImpl>()
 
     configureRouting(
+        clientVersion = Version.client,
         namingDao = namingDao,
         errorLogDAO = errorLogDAO,
         analyticsDAO = analyticsDAO,

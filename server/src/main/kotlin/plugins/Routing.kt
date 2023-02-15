@@ -18,6 +18,7 @@ import repository.OpenApiRepository
 import supports.toJsonString
 
 fun Application.configureRouting(
+    clientVersion: String,
     namingDao: NamingDAO,
     errorLogDAO: ErrorLogDAO,
     analyticsDAO: AnalyticsDAO,
@@ -136,7 +137,7 @@ fun Application.configureRouting(
         }
 
         get("version") {
-            call.respond(HttpStatusCode.OK, VersionResponse(version = "1.2.3"))
+            call.respond(HttpStatusCode.OK, VersionResponse(version = clientVersion))
         }
     }
 }
