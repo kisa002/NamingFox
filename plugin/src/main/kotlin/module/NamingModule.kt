@@ -43,23 +43,24 @@ object NamingModule {
             }.onSuccess { namingResponse ->
                 withContext(AwtEventQueueDispatcher) {
                     when (namingResponse.code) {
-                        0 -> if (namingResponse.result != null) {
+                        0 -> namingResponse.result?.naming?.let { naming ->
                             WriteCommandAction.runWriteCommandAction(project) {
-                                document.replaceString(start, end, namingResponse.result!!.naming)
+                                document.replaceString(start, end, naming)
                                 PopupManager.hide()
                             }
-                        } else {
-                            PopupManager.showError("Something wrong... Please contact to admin.")
-                        }
+                        } ?: PopupManager.showError("Something wrong... Please contact to admin.")
+
                         else -> PopupManager.showError(namingResponse.message)
                     }
                 }
             }.onFailure {
                 withContext(AwtEventQueueDispatcher) {
-                    PopupManager.showError(when(it) {
-                        is UnresolvedAddressException, is ConnectException -> "Server is down... Please contact to admin."
-                        else -> "Failed naming, please try later."
-                    })
+                    PopupManager.showError(
+                        when (it) {
+                            is UnresolvedAddressException, is ConnectException -> "Server is down... Please contact to admin."
+                            else -> "Failed naming, please try later."
+                        }
+                    )
                 }
             }
         }
