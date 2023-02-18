@@ -19,7 +19,7 @@ class OpenApiRepositoryImpl(private val client: HttpClient) : OpenApiRepository 
                     maxTokens = 100
                 )
             )
-            bearerAuth(API_KEY)
+            bearerAuth(ServerConfig.API_KEY)
             contentType(ContentType.Application.Json)
         }.body<CompletionsResponse>().choices.firstOrNull()?.text?.removePrefix("\n")
 }
