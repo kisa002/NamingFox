@@ -1,4 +1,4 @@
-package api
+package module
 
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -7,7 +7,7 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
-object KtorClient {
+object ApiModule {
     val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(
@@ -20,9 +20,9 @@ object KtorClient {
             )
         }
 
-        install(Logging) {
-            logger = Logger.DEFAULT
-            level = LogLevel.BODY
-        }
+//        install(Logging) {
+//            logger = Logger.DEFAULT
+//            level = LogLevel.BODY
+//        }
     }
 }
