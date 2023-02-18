@@ -1,4 +1,3 @@
-val ktor_version: String by project
 val kotlin_version: String by project
 val client_version: String by project
 
@@ -29,15 +28,6 @@ dependencies {
     implementation(project(":common-data"))
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-
-    implementation("io.ktor:ktor-client-core:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-    implementation("io.ktor:ktor-client-logging-jvm:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:1.2.11")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
 
 tasks.test {
