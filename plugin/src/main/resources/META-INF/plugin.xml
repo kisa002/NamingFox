@@ -5,8 +5,28 @@
     <vendor email="vnycall74@naver.com" url="https://haeyum.dev">HAEYUM</vendor>
 
     <description><![CDATA[
-    Naming Fox named a variable or function name
+    <h2>English</h2>
+    Naming variables and functions is a developer's biggest challenge.<br>
+    Without further ado, ask the Naming Fox.<br>
+    Select the text you want to ask the name of and click 'Naming Variable' or 'Naming Function' after right click.<br>
+    Also, you can use the shortcut ALT + SHIFT + A to ask for the variable name or ALT + SHIFT + S to ask for the function name.<br>
+    <br>
+    <h2>Korean</h2>
+    개발자의 최대 난제, 변수와 함수 이름 짓기.<br>
+    더 이상 고민하지 말고 Naming Fox에게 물어보세요.<br>
+    이름을 짓고 싶은 텍스트를 선택하고 오른쪽 클릭 후 'Naming Variable' 또는 'Naming Function'을 클릭하세요.<br>
+    또한 단축키 ALT + SHIFT + A로 변수 이름을 짓거나 ALT + SHIFT + S로 함수의 이름을 지을 수 있습니다.<br>
+    <br>
+
+    <img src="https://blog.kakaocdn.net/dn/dr6Ic9/btrYeZwOUDV/Fm4QXoduoMTwbYucAV5C9k/img.gif"/>
   ]]></description>
+
+    <change-notes><![CDATA[
+    <h3>Version 1.0.0</h3>
+    <ul>
+        <li>Initial release</li>
+    </ul>
+    ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
 
@@ -33,4 +53,6 @@
                 class="version_checker.StartUpVersionCheckListener"
                 topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
+
+    <idea-version since-build="181.1"/>
 </idea-plugin>
