@@ -56,5 +56,5 @@
                 topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
 
-    <idea-version since-build="181.1"/>
+    <idea-version since-build="192.5728.98"/>
 </idea-plugin>
