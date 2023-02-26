@@ -10,7 +10,7 @@ import models.remote.completions.CompletionsResponse
 class OpenApiRepositoryImpl(private val client: HttpClient) : OpenApiRepository {
     override suspend fun fetchNaming(original: String, type: String, language: String) =
         client.post("https://api.openai.com/v1/completions") {
-            val prompt = "'$original' is the description of the $type. Name it in extension of $language style without explain.\n"
+            val prompt = "naming a $type name '$original' in that .$language language style without explaining.\n"
 
             println(prompt)
             setBody(
