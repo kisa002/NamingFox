@@ -28,6 +28,10 @@
     <ul>
         <li>Fix review issue</li>
     </ul>
+    <h3>Version 1.0.2</h3>
+    <ul>
+        <li>Replace unstable IntelliJ api</li>
+    </ul>
     ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
@@ -56,5 +60,5 @@
                 topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
 
-    <idea-version since-build="181.1"/>
+    <idea-version since-build="192.5728.98"/>
 </idea-plugin>
