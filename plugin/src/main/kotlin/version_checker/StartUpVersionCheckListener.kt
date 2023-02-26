@@ -10,9 +10,8 @@ import kotlin.math.pow
 
 
 class StartUpVersionCheckListener : AppLifecycleListener {
-    override fun appStarted() {
-        super.appStarted()
-
+    override fun appFrameCreated(commandLineArgs: MutableList<String>) {
+        super.appFrameCreated(commandLineArgs)
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
                 VersionRepository.fetchVersion().version
