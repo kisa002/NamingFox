@@ -32,6 +32,10 @@
     <ul>
         <li>Replace unstable IntelliJ api</li>
     </ul>
+    <h3>Version 1.0.3</h3>
+    <ul>
+        <li>Deprecated Pre-2020.3</li>
+    </ul>
     ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
@@ -60,5 +64,5 @@
                 topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
 
-    <idea-version since-build="192.5728.98"/>
+    <idea-version since-build="193"/>
 </idea-plugin>
