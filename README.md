@@ -3,6 +3,10 @@ Naming Fox gives names to variables and functions.
 
 <img src="https://user-images.githubusercontent.com/4679634/219942070-fc488c5d-ea81-422f-b070-c9f3e6851485.png" width="256"/>
 
+## Marketplace
+### Jetbrains - IntelliJ IDE Plugin
+https://plugins.jetbrains.com/plugin/21095-namingfox
+
 ## Enlgish
 Naming variables and functions is a developer's biggest challenge.
 Without further ado, ask the Naming Fox.
